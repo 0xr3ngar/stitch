@@ -1,0 +1,11 @@
+{
+    "tracker": "linear",
+    "project": "STI",
+    "labels": ["from-code", "auto-sync"],
+    "paths": {
+        "src/auth/**": "AUTH",
+        "src/api/**": "API"
+    },
+    "patterns": ["TODO:", "FIXME:", "BUG:"],
+    "excludePaths": ["node_modules/**", "dist/**"]
+}
