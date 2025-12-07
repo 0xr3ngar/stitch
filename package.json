@@ -1,0 +1,69 @@
+{
+    "name": "stitch",
+    "version": "0.1.0",
+    "description": "TODOs speak, tickets move. Diff-aware syncing from code comments to tracker state.",
+    "author": "0xr3ngar",
+    "homepage": "https://github.com/0xr3ngar/stitch",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/0xr3ngar/stitch.git"
+    },
+    "bugs": {
+        "url": "https://github.com/0xr3ngar/stitch/issues"
+    },
+    "devDependencies": {
+        "@biomejs/biome": "^2.3.8",
+        "@types/bun": "^1.3.3",
+        "@types/node": "^24.10.1",
+        "knip": "^5.71.0",
+        "syncpack": "^14.0.0-alpha.32",
+        "typescript": "^5.9.3"
+    },
+    "devEngines": {
+        "runtime": {
+            "name": "bun",
+            "onFail": "error"
+        },
+        "packageManager": {
+            "name": "bun",
+            "onFail": "error"
+        }
+    },
+    "engines": {
+        "node": ">=22.11.0",
+        "bun": ">=1.0.0"
+    },
+    "keywords": [
+        "todo",
+        "tickets",
+        "sync",
+        "comments",
+        "tracker",
+        "state",
+        "diff",
+        "aware",
+        "syncing",
+        "typescript"
+    ],
+    "packageManager": "bun@1.3.0",
+    "type": "module",
+    "license": "MIT",
+    "main": "dist/index.js",
+    "module": "dist/index.js",
+    "scripts": {
+        "biome:check": "biome check --write ./src/",
+        "biome:format": "biome format --write ./src/",
+        "biome:lint": "biome lint --write ./src/",
+        "build": "bun build src/index.ts --outdir dist --target bun",
+        "check": "bun run typecheck && bun run biome:check && bun run knip",
+        "deps:check": "syncpack update --check",
+        "deps:format": "syncpack format",
+        "deps:update": "syncpack update && bun install",
+        "dev": "bun run --watch src/index.ts",
+        "knip": "knip",
+        "start": "bun run src/index.ts",
+        "test": "bun test",
+        "test:watch": "bun test --watch",
+        "typecheck": "tsc --noEmit"
+    }
+}
