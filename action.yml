@@ -1,0 +1,48 @@
+name: "Stitch - Auto-sync TODOs"
+description: "Sync TODO comments to Jira, Linear, or GitHub Issues"
+author: "0xr3ngar"
+branding:
+  icon: "link-2"
+  color: "blue"
+
+inputs:
+  config:
+    description: "Path to stitch.config.json"
+    required: false
+    default: "./stitch.config.json"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup Bun
+      uses: oven-sh/setup-bun@v1
+
+    - name: Install dependencies
+      shell: bash
+      run: bun install
+
+    - name: Build Stitch
+      shell: bash
+      run: bun run build
+
+    - name: Capture diff
+      shell: bash
+      run: |
+        if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+          git diff origin/${{ github.base_ref }}...HEAD > /tmp/changes.patch
+        else
+          git diff HEAD~1 HEAD > /tmp/changes.patch
+        fi
+
+    - name: Run Stitch
+      shell: bash
+      env:
+        JIRA_TOKEN: ${{ env.JIRA_TOKEN }}
+        LINEAR_API_KEY: ${{ env.LINEAR_API_KEY }}
+        GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
+      run: bun run dist/index.js --patch /tmp/changes.patch --config "${{ inputs.config }}"
